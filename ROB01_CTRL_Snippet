@@ -1,0 +1,117 @@
+// html snippet to control ROB01.glb file
+
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+<style>
+    .modeldiv{
+        padding-top: 20px;
+        width:100%;
+        height:800px;
+        display: flex;
+        justify-content: center;
+        position: sticky;
+        top: 0;
+
+    }
+    .model-viewer {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<div class="modeldiv">
+    <model-viewer class="model-viewer" id="Robot" loading="eager" src="https://raw.githubusercontent.com/Aeceus/WebsiteMedia/refs/heads/main/CHAR_ROB01.glb" shadow-intensity="1" scale="1.3 1.3 1.3" disable-zoom="" camera-orbit="-45deg auto 4.5m" target="0m 0.0m 0m" camera-controls="" alt="A 3D model of a robot">
+    </model-viewer>
+    
+<script>
+  const modelViewer = document.querySelector('#Robot');
+
+  
+  function getRandomIntInclusive(min, max) {
+      const minCeiled = Math.ceil(min);
+      const maxFloored = Math.floor(max);
+      return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
+  };
+  
+  
+  function blinking() {
+      modelViewer.appendAnimation('Blink', {weight: 1});
+      setTimeout(stopblinking, 250);
+      setTimeout(blinking, getRandomIntInclusive(1000, 5000));
+  };
+  
+  function stopblinking() {
+      modelViewer.detachAnimation('Blink', {fade: 0});
+  }
+  
+  function lookbehind() {
+      modelViewer.detachAnimation('IdleBobbing', {fade: 1});
+      modelViewer.appendAnimation('Idle_LookOverShoulder', {weight: 1});
+      setTimeout(stoplookbehind, 4000);
+      setTimeout(lookbehind, getRandomIntInclusive(30000, 60000));
+  };
+  
+  function stoplookbehind() {
+      modelViewer.detachAnimation('Idle_LookOverShoulder', {fade: 0});
+      modelViewer.appendAnimation('IdleBobbing', {weight: 1});
+  }
+  
+  function arms() {
+      modelViewer.appendAnimation('IdleArms', {weight: 1});
+      setTimeout(stoparms, 2000);
+      setTimeout(arms, getRandomIntInclusive(30000, 60000));
+  };
+  
+  function stoparms() {
+      modelViewer.detachAnimation('IdleArms', {fade: 0});
+
+  }
+  
+  function thumbsup() {
+      modelViewer.detachAnimation('IdleBobbing', {fade: 1});
+      modelViewer.appendAnimation('Idle_ThumbsUp', {weight: 1});
+      setTimeout(stopthumbsup, 3000);
+      setTimeout(thumbsup, getRandomIntInclusive(90000, 180000));
+  };
+  
+  function stopthumbsup() {
+      modelViewer.detachAnimation('Idle_ThumbsUp', {fade: 0});
+      modelViewer.appendAnimation('IdleBobbing', {weight: 1});
+  }
+  
+  function idlewave() {
+      modelViewer.detachAnimation('IdleBobbing', {fade: 1});
+      modelViewer.appendAnimation('Idle_Wave', {weight: 1});
+      setTimeout(stopidlewave, 3000);
+  };
+  
+  function stopidlewave() {
+      modelViewer.detachAnimation('Idle_Wave', {fade: 0});
+      modelViewer.appendAnimation('IdleBobbing', {weight: 1});
+  }
+
+  function idling() {
+      const isAppended = modelViewer.appendedAnimations.includes('IdleBobbing');
+
+      if (isAppended == false) {
+        modelViewer.appendAnimation('IdleBobbing', {weight: 1});
+        setTimeout(idling, 10);
+      };
+
+  };
+  
+  //modelViewer.animationName='IdleBobbing';
+  //modelViewer.play();
+  
+  idling();
+  setTimeout(idlewave, 100);
+  setTimeout(blinking, getRandomIntInclusive(1000, 5000));
+  setTimeout(lookbehind, getRandomIntInclusive(3000, 6000));
+  setTimeout(arms, getRandomIntInclusive(3000, 6000));
+  setTimeout(thumbsup, getRandomIntInclusive(9000, 18000));
+
+
+</script>
+
+
+</div>
+
